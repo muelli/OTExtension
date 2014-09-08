@@ -365,7 +365,7 @@ BOOL OTExtensionSender::OTSenderRoutine(int id, int myNumOTs)
 	else if (m_bProtocol == C_OT ) numsndvals = 1;
 	else numsndvals = 0;
 
-	vSnd = (CBitVector*) malloc(sizeof(CBitVector) * numsndvals);
+	vSnd = (CBitVector*) calloc(numsndvals, sizeof(CBitVector));
 	for(int i = 0; i < numsndvals; i++)
 	{
 		vSnd[i].Create(OTsPerIteration * m_nBitLength);
