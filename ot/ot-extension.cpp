@@ -156,13 +156,13 @@ BOOL OTExtensionReceiver::OTReceiverRoutine(int id, int myNumOTs)
 	vRcv.delCBitVector();
 
 #ifdef OTTiming
-	cout << "Receiver time benchmark for performing " << myNumOTs << " OTs on " << m_nBitLength << " bit strings" << endl;
-	cout << "Time needed for: " << endl;
-	cout << "\t Matrix Generation:\t" << totalMtxTime << " ms" << endl;
-	cout << "\t Sending Matrix:\t" << totalSndTime << " ms" << endl;
-	cout << "\t Transposing Matrix:\t" << totalTnsTime << " ms" << endl;
-	cout << "\t Hashing Matrix:\t" << totalHshTime << " ms" << endl;
-	cout << "\t Receiving Values:\t" << totalRcvTime << " ms" << endl;
+	cerr << "Receiver time benchmark for performing " << myNumOTs << " OTs on " << m_nBitLength << " bit strings" << endl;
+	cerr << "Time needed for: " << endl;
+	cerr << "\t Matrix Generation:\t" << totalMtxTime << " ms" << endl;
+	cerr << "\t Sending Matrix:\t" << totalSndTime << " ms" << endl;
+	cerr << "\t Transposing Matrix:\t" << totalTnsTime << " ms" << endl;
+	cerr << "\t Hashing Matrix:\t" << totalHshTime << " ms" << endl;
+	cerr << "\t Receiving Values:\t" << totalRcvTime << " ms" << endl;
 #endif
 
 	return TRUE;
@@ -275,7 +275,7 @@ BOOL OTExtensionReceiver::verifyOT(int NumOTs)
 			{
 				if(tempXc[k] != tempRet[k])
 				{
-					cout << "Error at position i = " << i << ", k = " << k << ", with X" << (hex) << (unsigned int) m_nChoices.GetBitNoMask(i)
+					cerr << "Error at position i = " << i << ", k = " << k << ", with X" << (hex) << (unsigned int) m_nChoices.GetBitNoMask(i)
 							<< " = " << (unsigned int) tempXc[k] << " and res = " << (unsigned int) tempRet[k] << (dec) << endl;
 					resp = 0x00;
 					sock.Send(&resp, 1);
@@ -435,13 +435,13 @@ BOOL OTExtensionSender::OTSenderRoutine(int id, int myNumOTs)
 	if(numsndvals > 0)	free(vSnd);
 
 #ifdef OTTiming
-	cout << "Sender time benchmark for performing " << myNumOTs << " OTs on " << m_nBitLength << " bit strings" << endl;
-	cout << "Time needed for: " << endl;
-	cout << "\t Matrix Generation:\t" << totalMtxTime << " ms" << endl;
-	cout << "\t Sending Matrix:\t" << totalSndTime << " ms" << endl;
-	cout << "\t Transposing Matrix:\t" << totalTnsTime << " ms" << endl;
-	cout << "\t Hashing Matrix:\t" << totalHshTime << " ms" << endl;
-	cout << "\t Receiving Values:\t" << totalRcvTime << " ms" << endl;
+	cerr << "Sender time benchmark for performing " << myNumOTs << " OTs on " << m_nBitLength << " bit strings" << endl;
+	cerr << "Time needed for: " << endl;
+	cerr << "\t Matrix Generation:\t" << totalMtxTime << " ms" << endl;
+	cerr << "\t Sending Matrix:\t" << totalSndTime << " ms" << endl;
+	cerr << "\t Transposing Matrix:\t" << totalTnsTime << " ms" << endl;
+	cerr << "\t Hashing Matrix:\t" << totalHshTime << " ms" << endl;
+	cerr << "\t Receiving Values:\t" << totalRcvTime << " ms" << endl;
 #endif
 
 
@@ -555,7 +555,7 @@ BOOL OTExtensionSender::verifyOT(int NumOTs)
 		processedOTBlocks = min(NUMOTBLOCKS, CEIL_DIVIDE(NumOTs-i, OTEXT_BLOCK_SIZE_BITS));
  		OTsPerIteration = min(processedOTBlocks * OTEXT_BLOCK_SIZE_BITS, NumOTs-i);
  		nSnd = CEIL_DIVIDE(OTsPerIteration * m_nBitLength, 8);
- 		//cout << "copying " << nSnd << " bytes from " << CEIL_DIVIDE(i*m_nBitLength, 8) << ", for i = " << i << endl;
+ 		//cerr << "copying " << nSnd << " bytes from " << CEIL_DIVIDE(i*m_nBitLength, 8) << ", for i = " << i << endl;
  		vSnd.Copy(m_vValues[0].GetArr() + CEIL_DIVIDE(i*m_nBitLength, 8), 0, nSnd);
  		sock.Send(vSnd.GetArr(), nSnd);
  		vSnd.Copy(m_vValues[1].GetArr() + CEIL_DIVIDE(i*m_nBitLength, 8), 0, nSnd);
@@ -563,7 +563,7 @@ BOOL OTExtensionSender::verifyOT(int NumOTs)
 		sock.Receive(&resp, 1);
 		if(resp == 0x00)
 		{
-			cout << "OT verification unsuccessful" << endl;
+			cerr << "OT verification unsuccessful" << endl;
 			return false;
 		}
 	}
