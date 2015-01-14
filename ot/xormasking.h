@@ -23,7 +23,7 @@ public:
 		int bitPos = progress * m_nBitLength;
 		int bytePos = CEIL_DIVIDE(bitPos, 8);
 
-		//cout << "Performing masking for " << bitPos << " to " << bitPos + (len*8) << endl;
+		//cerr << "Performing masking for " << bitPos << " to " << bitPos + (len*8) << endl;
 		values[1].SetBits(values[0].GetArr() + bytePos, bitPos, processedOTs * m_nBitLength);
 		values[1].XORBits(delta.GetArr() + bytePos, bitPos, processedOTs * m_nBitLength);
 

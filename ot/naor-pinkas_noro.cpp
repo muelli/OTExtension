@@ -230,7 +230,7 @@ BOOL NaorPinkasNoRO::ReceiverECC(int nSndVals, int nOTs, CBitVector& choices, CS
 	//EC2 G;
     	//G=EC2(*m_X,*m_Y);
     	irand((long) 1);//TODO use seed from state!
-    	//cout << " g = " << G << endl;
+    	//cerr << " g = " << G << endl;
 	Big a, b[nOTs], btmp, xtmp, ytmp; 
 #ifdef USE_PRIME_FIELD	
 	ECn g, x, y, w, z0, z1;
@@ -242,7 +242,7 @@ BOOL NaorPinkasNoRO::ReceiverECC(int nSndVals, int nOTs, CBitVector& choices, CS
 	int coordSize = (m_SecParam+7)/8;
 	
     	Miracl_InitPoint(&g, *m_X, *m_Y);//g = EC2(*m_X ,*m_Y); 
-    	//cout << "G_upd = " << g << endl;
+    	//cerr << "G_upd = " << g << endl;
 	//g = ECn(*m_X, *m_Y);
 
 	Miracl_InitBrick(&bg, &g);
@@ -308,7 +308,7 @@ BOOL NaorPinkasNoRO::ReceiverECC(int nSndVals, int nOTs, CBitVector& choices, CS
 		pBufIdx += (coordSize + 1);  
 		//printepoint(g);
 		//printepoint(x);
-		//cout << "g: " << g << ", x: " << x << ", y: " << y << ", z0: " << z0 << ", z1: " << z1  << endl;
+		//cerr << "g: " << g << ", x: " << x << ", y: " << y << ", z0: " << z0 << ", z1: " << z1  << endl;
 	}
 
 	int nRecvBufSize = 2 * nOTs * (coordSize + 1);
@@ -362,7 +362,7 @@ BOOL NaorPinkasNoRO::SenderECC(int nSndVals, int nOTs, CSocket& socket, BYTE* re
 	irand((long) 2);//TODO use seed from state!
 
 	int coordSize = (m_SecParam+7)/8;
-//cout << "coordsize = " << coordSize << endl;
+//cerr << "coordsize = " << coordSize << endl;
 
 
 	Miracl_InitPoint(&g, *m_X, *m_Y);//g = EC2(*m_X, *m_Y);
@@ -435,13 +435,13 @@ BOOL NaorPinkasNoRO::SenderECC(int nSndVals, int nOTs, CSocket& socket, BYTE* re
 		pBufIdx += coordSize+1;
 		
 		//compute first possible hash 
-		//cout << "r0: " << r0[k] << ", y: " << y << ", s0: " << s0[k] << ", z0: " << z0 << ", ztmp: " << ztmp << endl;
+		//cerr << "r0: " << r0[k] << ", y: " << y << ", s0: " << s0[k] << ", z0: " << z0 << ", ztmp: " << ztmp << endl;
 #ifdef USE_PRIME_FIELD	
 		ecurve_mult2(r0[k].getbig(), y.get_point(), s0[k].getbig(), z0.get_point(), ztmp.get_point()); 
 #else
 		ecurve2_mult2(r0[k].getbig(), y.get_point(), s0[k].getbig(), z0.get_point(), ztmp.get_point()); 
 #endif
-		//cout << "r0: " << r0[k] << ", y: " << y << ", s0: " << s0[k] << ", z0: " << z0 << ", ztmp: " << ztmp << endl;
+		//cerr << "r0: " << r0[k] << ", y: " << y << ", s0: " << s0[k] << ", z0: " << z0 << ", ztmp: " << ztmp << endl;
 		//export result and hash
 		PointToByteArray(pBuf, coordSize, ztmp);
 		hashReturn(retPtr, pBuf, (coordSize+1), k);

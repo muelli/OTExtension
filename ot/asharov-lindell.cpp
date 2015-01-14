@@ -32,7 +32,7 @@ BOOL AsharovLindell::ReceiverIFC(int nSndVals, int nOTs, CBitVector& choices, CS
 			mpz_mod(ztmp2, ztmp, m_NPState.p);
 			mpz_powm(h[i], ztmp2, div, m_NPState.p);
 		} while(!(mpz_cmp_ui(h[i], (unsigned long int) 1) )  );
-		//cout << h[i] << endl;
+		//cerr << h[i] << endl;
 		//mpz_urandomb(ztmp, m_NPState.rnd_state, m_NPState.field_size * 8);
 		//mpz_mod(ztmp2, ztmp, m_NPState.p);
 		//mpz_mul(h[i], ztmp2, ztmp2);

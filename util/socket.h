@@ -11,7 +11,7 @@ class CSocket
 public:
 	CSocket(){ m_hSock = INVALID_SOCKET; }
 	~CSocket(){ }
-	//~CSocket(){ cout << "Closing Socket!" << endl; Close(); }
+	//~CSocket(){ cerr << "Closing Socket!" << endl; Close(); }
 	
 public:
 	BOOL Socket()
@@ -48,7 +48,7 @@ public:
 		//setsockopt(m_hSock, IPPROTO_TCP, TCP_MAXSEG , (char*)&OptSegSizeLen, OptSegSize);
 		// disable tcp slow start - (false)
 		//setsockopt(m_hSock, IPPROTO_TCP, TM_TCP_SLOW_START , (char*)&bOptVal, bOptLen);
-		//cout << "TCP_MAXSEG: " << TCP_MAXSEG << endl;
+		//cerr << "TCP_MAXSEG: " << TCP_MAXSEG << endl;
 		return success;
 	
 	}
@@ -208,7 +208,7 @@ public:
 	int Receive(void* pBuf, int nLen, int nFlags = 0)
 	{
 /* Note to Michael: count number of received Bytes and messages here */
-		//cout << "rcv = " << nLen << endl;
+		//cerr << "rcv = " << nLen << endl;
 		char* p = (char*) pBuf;
 		int n = nLen;
 		int ret = 0;
@@ -225,13 +225,13 @@ public:
             {
 				if( errno == EAGAIN )
 				{
-					cout << "socket recv eror: EAGAIN" << endl;
+					cerr << "socket recv eror: EAGAIN" << endl;
 					SleepMiliSec(200);
 					continue;
 				} 
 				else
 				{
-					cout << "socket recv error: " << errno << endl;
+					cerr << "socket recv error: " << errno << endl;
 					return ret;
 				}
             }
@@ -250,7 +250,7 @@ public:
 	int Send(const void* pBuf, int nLen, int nFlags = 0)
 	{
 /* Note to Michael: count number of sent Bytes and messages here */
-		//cout << "snd = " << nLen << endl;
+		//cerr << "snd = " << nLen << endl;
 		//statistics.bytes_sent += (UINT) nLen;
 		//statistics.messages_sent++;
 		return send(m_hSock, (char*)pBuf, nLen, nFlags);

@@ -334,5 +334,5 @@ void BaseOT::printepoint(epoint *point)
 {
 	Big x, y;
 	epoint_getxyz(point,x.getbig(),y.getbig(),NULL);
-	cout << "(" << x << ", " << y << ")" << endl;
+	cerr << "(" << x << ", " << y << ")" << endl;
 }

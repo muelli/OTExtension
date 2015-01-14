@@ -39,7 +39,7 @@ BOOL Connect()
 	LONG lTO = CONNECT_TIMEO_MILISEC;
 
 #ifndef BATCH
-	cout << "Connecting to party "<< !m_nPID << ": " << m_nAddr << ", " << m_nPort << endl;
+	cerr << "Connecting to party "<< !m_nPID << ": " << m_nAddr << ", " << m_nPort << endl;
 #endif
 	for(int k = m_nNumOTThreads-1; k >= 0 ; k--)
 	{
@@ -56,11 +56,11 @@ BOOL Connect()
 				// send pid when connected
 				m_vSockets[k].Send( &k, sizeof(int) );
 		#ifndef BATCH
-				cout << " (" << !m_nPID << ") (" << k << ") connected" << endl;
+				cerr << " (" << !m_nPID << ") (" << k << ") connected" << endl;
 		#endif
 				if(k == 0) 
 				{
-					//cout << "connected" << endl;
+					//cerr << "connected" << endl;
 					return TRUE;
 				}
 				else
@@ -78,7 +78,7 @@ BOOL Connect()
 server_not_available:
 	printf("Server not available: ");
 connect_failure:
-	cout << " (" << !m_nPID << ") connection failed" << endl;
+	cerr << " (" << !m_nPID << ") connection failed" << endl;
 	return FALSE;
 }
 
@@ -87,7 +87,7 @@ connect_failure:
 BOOL Listen()
 {
 #ifndef BATCH
-	cout << "Listening: " << m_nAddr << ":" << m_nPort << ", with size: " << m_nNumOTThreads << endl;
+	cerr << "Listening: " << m_nAddr << ":" << m_nPort << ", with size: " << m_nNumOTThreads << endl;
 #endif
 	if( !m_vSockets[0].Socket() ) 
 	{
@@ -101,7 +101,7 @@ BOOL Listen()
 	for( int i = 0; i<m_nNumOTThreads; i++ ) //twice the actual number, due to double sockets for OT
 	{
 		CSocket sock;
-		//cout << "New round! " << endl;
+		//cerr << "New round! " << endl;
 		if( !m_vSockets[0].Accept(sock) )
 		{
 			cerr << "Error in accept" << endl;
@@ -119,7 +119,7 @@ BOOL Listen()
 		}
 
 	#ifndef BATCH
-		cout <<  " (" << m_nPID <<") (" << threadID << ") connection accepted" << endl;
+		cerr <<  " (" << m_nPID <<") (" << threadID << ") connection accepted" << endl;
 	#endif
 		// locate the socket appropriately
 		m_vSockets[threadID].AttachFrom(sock);
@@ -127,12 +127,12 @@ BOOL Listen()
 	}
 
 #ifndef BATCH
-	cout << "Listening finished"  << endl;
+	cerr << "Listening finished"  << endl;
 #endif
 	return TRUE;
 
 listen_failure:
-	cout << "Listen failed" << endl;
+	cerr << "Listen failed" << endl;
 	return FALSE;
 }
 
@@ -294,13 +294,13 @@ int main(int argc, char** argv)
 
 	if(argc != 2)
 	{
-		cout<< "Please call with 0 if acting as server or 1 if acting as client" << endl;
+		cerr<< "Please call with 0 if acting as server or 1 if acting as client" << endl;
 		return 0;
 	}
 
 	//Determines whether the program is executed in the sender or receiver role
 	m_nPID = atoi(argv[1]);
-	cout << "Playing as role: " << m_nPID << endl;
+	cerr << "Playing as role: " << m_nPID << endl;
 	//the number of OTs that are performed. Has to be initialized to a certain minimum size due to
 	int numOTs = 1000000;
 	//bitlength of the values that are transferred - NOTE that when bitlength is not 1 or a multiple of 8, the endianness has to be observed
@@ -346,7 +346,7 @@ int main(int argc, char** argv)
 		 * Outputs: NONE
 		*/
 		version = G_OT;
-		cout << "Sender performing " << numOTs << " G_OT extensions on " << bitlength << " bit elements" << endl;
+		cerr << "Sender performing " << numOTs << " G_OT extensions on " << bitlength << " bit elements" << endl;
 		ObliviouslySend(X1, X2, numOTs, bitlength, version, delta);
 
 		/* 
@@ -360,7 +360,7 @@ int main(int argc, char** argv)
 		 * Note that the correlation (XOR in the example) can be changed in fMaskFct by implementing a different routine.  
 		*/
 		version = C_OT;
-		cout << "Sender performing " << numOTs << " C_OT extensions on " << bitlength << " bit elements" << endl;
+		cerr << "Sender performing " << numOTs << " C_OT extensions on " << bitlength << " bit elements" << endl;
 		ObliviouslySend(X1, X2, numOTs, bitlength, version, delta);
 
 
@@ -373,16 +373,16 @@ int main(int argc, char** argv)
 		 * X2: is filled with random values. Needs to be a CBitVector of size bitlength*numOTs
 		*/
 		version = R_OT;
-		cout << "Sender performing " << numOTs << " R_OT extensions on " << bitlength << " bit elements" << endl;
+		cerr << "Sender performing " << numOTs << " R_OT extensions on " << bitlength << " bit elements" << endl;
 		ObliviouslySend(X1, X2, numOTs, bitlength, version, delta);
 
-		/*cout << "X1: "<< endl;
+		/*cerr << "X1: "<< endl;
 		X1.PrintHex();
-		cout << "X2: " << endl;
+		cerr << "X2: " << endl;
 		X2.PrintHex();
 		if(version == C_OT)
 		{
-			cout << "Delta: "<< endl;
+			cerr << "Delta: "<< endl;
 			delta.PrintHex();
 		}*/
 	}
@@ -407,21 +407,21 @@ int main(int argc, char** argv)
 		*/
 		
 		version = G_OT;
-		cout << "Receiver performing " << numOTs << " G_OT extensions on " << bitlength << " bit elements" << endl;
+		cerr << "Receiver performing " << numOTs << " G_OT extensions on " << bitlength << " bit elements" << endl;
 		ObliviouslyReceive(choices, response, numOTs, bitlength, version);
 
 		version = C_OT;
-		cout << "Receiver performing " << numOTs << " C_OT extensions on " << bitlength << " bit elements" << endl;
+		cerr << "Receiver performing " << numOTs << " C_OT extensions on " << bitlength << " bit elements" << endl;
 		ObliviouslyReceive(choices, response, numOTs, bitlength, version);
 
 		version = R_OT;
-		cout << "Receiver performing " << numOTs << " R_OT extensions on " << bitlength << " bit elements" << endl;
+		cerr << "Receiver performing " << numOTs << " R_OT extensions on " << bitlength << " bit elements" << endl;
 		ObliviouslyReceive(choices, response, numOTs, bitlength, version);
 
 
-		/*cout << "Choices: " << endl;
+		/*cerr << "Choices: " << endl;
 		choices.Print(0, numOTs);
-		cout << "Response: " << endl;
+		cerr << "Response: " << endl;
 		response.PrintHex();*/
 	}
 	Cleanup();

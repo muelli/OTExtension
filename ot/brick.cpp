@@ -49,11 +49,11 @@ void FixedPointExp::init() {
   m_isInitialized = true;
 
 //   for (unsigned u=0; u<m_numberOfElements; ++u) {
-//     cout << "table[" << u << "] = " << m_table[u] << endl;
+//     cerr << "table[" << u << "] = " << m_table[u] << endl;
 //     ZZ res;
 //     ZZ ex = power_ZZ(2,u);
 //     PowerMod(res, m_g, ex, m_p);
-//     cout << "    (Should be = " << res << ")" << endl;
+//     cerr << "    (Should be = " << res << ")" << endl;
 //   }
 }
 
